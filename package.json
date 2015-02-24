@@ -1,0 +1,21 @@
+{
+  "name": "socket_io_sample",
+  "version": "1.0.0",
+  "private": "true",
+  "description": "A simple socket.io server using frhttp",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine-node spec/"
+  },
+  "keywords": [
+    "socket.io",
+    "FRP",
+    "frhttp"
+  ],
+  "author": "ayasin@datatensor.com",
+  "license": "MIT",
+  "dependencies": {
+    "frhttp": "^0.1.3",
+    "socket.io": "^1.3.4"
+  }
+}
