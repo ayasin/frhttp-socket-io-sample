@@ -1,19 +1,12 @@
 var server = require('frhttp').createServer(),
 	http = require('http'),
 
-	httpServer = http.createServer(function (req, res) {
-		server.runRoute(req, res);
-	}),
+	httpServer = http.createServer(server.runRoute),
 	io = require('socket.io')(httpServer),
 
-	socketIOWriter = {
-		data: function (data) {
+	socketIOWriter = function (data) {
 			io.emit(data.target, data.message);
-		},
-		error: function (err) {
-			console.log(JSON.stringify(err));
-		}
-	};
+		};
 
 server.GET('/socket').onValue(function (route) {
 	route.render([], function (writer) {
@@ -37,7 +30,7 @@ server.GET('/chat/publish').onValue(function (route) {
 			emit.done();
 		})
 		.when('publish message', ['msg', 'source', 'ioWriter'], [], function (emit, input) {
-			input.ioWriter.data({
+			input.ioWriter({
 				target: 'chat message',
 				message: '(' + input.source + ') : ' + input.msg
 			});
