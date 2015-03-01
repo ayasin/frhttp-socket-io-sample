@@ -29,7 +29,7 @@ server.GET('/chat/publish').onValue(function (route) {
 			emit.value('msg', input[server.CONSTANTS.QUERY_VARS].msg);
 			emit.done();
 		})
-		.when('publish message', ['msg', 'source', 'ioWriter'], [], function (emit, input) {
+		.when('side-effect publish message', ['msg', 'source', 'ioWriter'], [], function (emit, input) {
 			input.ioWriter({
 				target: 'chat message',
 				message: '(' + input.source + ') : ' + input.msg
