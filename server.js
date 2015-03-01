@@ -15,9 +15,15 @@ var server = require('frhttp').createServer(),
 		}
 	};
 
-server.GET('/').onValue(function (route) {
+server.GET('/socket').onValue(function (route) {
 	route.render([], function (writer) {
-		writer.writeFile('text/html', __dirname +  '/index.html');
+		writer.writeFile('text/html', __dirname +  '/socket_index.html');
+	});
+});
+
+server.GET('/rest').onValue(function (route) {
+	route.render([], function (writer) {
+		writer.writeFile('text/html', __dirname +  '/rest_index.html');
 	});
 });
 
@@ -26,7 +32,7 @@ server.GET('/chat/publish').onValue(function (route) {
 		.inject({ioWriter : socketIOWriter})
 		.when(server.WHEN.QUERY_STRING)
 		.when('initially', [server.CONSTANTS.QUERY_VARS], ['msg', 'source'], function (emit, input) {
-			emit.value('source','HTTP/GET');
+			emit.value('source',input[server.CONSTANTS.QUERY_VARS].source);
 			emit.value('msg', input[server.CONSTANTS.QUERY_VARS].msg);
 			emit.done();
 		})
@@ -44,8 +50,8 @@ server.GET('/chat/publish').onValue(function (route) {
 
 io.on('connection', function (socket) {
 	socket.on('chat message', function (data) {
-		server.runRouteWithRender(socketIOWriter, 'GET', '/chat/publish', {source: 'WebSocket', msg: data}, [], function () {});
-	})
+		server.runRouteWithRender(null, 'GET', '/chat/publish', data);
+	});
 });
 
 httpServer.listen(3000);

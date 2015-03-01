@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Send To Chat Test Page</title>
+</head>
+<body>
+  <p>
+    <b>Send a chat</b>
+  </p>
+  <form action="/chat/publish" type="GET">
+    <label>Sender </label><input type="text" name="source">
+    <br><br>
+    <label>Message </label><br>
+    <textarea name="msg"></textarea>
+    <br><br>
+    <button type="submit">Send</button>
+  </form>
+</body>
+</html>
